@@ -5,10 +5,11 @@ using System.Linq;
 using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace Snake
 {
-    public class GameState
+    public class gameState_Class
     {
         public int Rows { get; }
         public int Cols { get; }
@@ -21,7 +22,10 @@ namespace Snake
         private readonly LinkedList<Position> snakePositions = new LinkedList<Position>();
         private readonly Random random = new Random();
 
-        public GameState(int rows, int cols)
+        public static int MovementSpeed = 100;
+        public int FlashesActive = 0;
+
+        public gameState_Class(int rows, int cols)
         {
             Rows = rows;
             Cols = cols;
@@ -61,7 +65,6 @@ namespace Snake
         {
             List<Position> empty = new List<Position>(EmptyPositions());
 
-
             if (empty.Count == 0)
             {
                 return;
@@ -69,6 +72,19 @@ namespace Snake
 
             Position pos = empty[random.Next(empty.Count)];
             Grid[pos.Row, pos.Col] = GridValue.Food;
+        }
+
+        private void AddFlash()
+        {
+            List<Position> empty = new List<Position>(EmptyPositions());
+
+            if (empty.Count == 0)
+            {
+                return;
+            }
+
+            Position pos = empty[random.Next(empty.Count)];
+            Grid[pos.Row, pos.Col] = GridValue.Flash;
         }
 
         public Position HeadPosition()
@@ -109,6 +125,11 @@ namespace Snake
             return dirChanges.Last.Value;
         }
 
+        public static int GetMovementSpeed()
+        {
+            return MovementSpeed;
+        }
+
         private bool CanChangeDirection(Direction newDir)
         {
             if (dirChanges.Count == 2)
@@ -146,8 +167,12 @@ namespace Snake
             return Grid[newHeadPos.Row, newHeadPos.Col];
         }
 
-        public void Move()
+        public async void Move()
         {
+            MediaPlayer nom = new MediaPlayer();
+            //Uri soundfile = new Uri($"/Assets/nom.mp3");
+            //nom.Open(soundfile);
+
             if (dirChanges.Count > 0) 
             {
                 Dir = dirChanges.First.Value;
@@ -159,7 +184,7 @@ namespace Snake
             Position newHeadPos = HeadPosition().Translate(Dir);
             GridValue hit = WillHit(newHeadPos);
 
-            if (hit == GridValue.Outside || hit == GridValue.Snake) 
+            if (hit == GridValue.Outside || hit == GridValue.Snake)
             {
                 GameOver = true;
             }
@@ -172,8 +197,63 @@ namespace Snake
             {
                 AddHead(newHeadPos);
                 Score++;
-                AddFood();
-            } 
+                //nom.Play();
+                for (int i = 0; i < 5; i++)
+                {
+                    AddFood();
+                }
+                Random random = new Random();
+                if (random.Next(0, 101) <= 10)
+                {
+                    AddFlash();
+                }
+            }
+            else if (hit == GridValue.Flash)
+            {
+                AddHead(newHeadPos);
+                Score += 3;
+                if (FlashesActive == 0)
+                {
+                    MovementSpeed -= 50;
+                    FlashesActive++;
+                }
+                else if (FlashesActive > 0)
+                {
+                    MovementSpeed -= 25;
+                    if (MovementSpeed < 10)
+                        MovementSpeed = 10;
+                }
+                do 
+                { 
+                    await Task.Delay(7500);
+                    if (FlashesActive > 1)
+                    {
+                        MovementSpeed += 25;
+                        FlashesActive--;
+                        break;
+                    }
+                    else if (FlashesActive == 1)
+                    {
+                        MovementSpeed += 50;
+                        FlashesActive--;
+                        break;
+                    }
+                }
+                while (FlashesActive > 0); 
+                {
+                    await Task.Delay(7500);
+                    if (FlashesActive > 1)
+                    {
+                        MovementSpeed += 25;
+                        FlashesActive--;
+                    }
+                    else if (FlashesActive == 1)
+                    {
+                        MovementSpeed += 50;
+                        FlashesActive--;
+                    }
+                }
+            }
         }
     }
 }

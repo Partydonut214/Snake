@@ -10,6 +10,6 @@
         <SolidColorBrush x:Key="TextColor">#EBEBEB</SolidColorBrush>
         <SolidColorBrush x:Key="OverlayColor">#7f000000</SolidColorBrush>
         <FontFamily x:Key="MainFont">Assets/#Droid Sans Mono</FontFamily>
-        
+
     </Application.Resources>
 </Application>

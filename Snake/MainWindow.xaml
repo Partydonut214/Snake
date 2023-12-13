@@ -29,6 +29,13 @@
                 FontSize="22"
                 Margin="10"/>
 
+            <TextBlock x:Name="Debug_MoveSpeed"
+    HorizontalAlignment="Right"
+    VerticalAlignment="Center"
+    Text="SPEED 0"
+    FontSize="22"
+    Margin="10"/>
+
             <Border x:Name="GridBorder"
              Grid.Row="1"
              BorderBrush="{StaticResource GridLineColor}"

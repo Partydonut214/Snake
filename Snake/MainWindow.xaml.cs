@@ -24,7 +24,8 @@ namespace Snake
         {
             { GridValue.Empty, Images.Empty },
             { GridValue.Snake, Images.Body },
-            { GridValue.Food, Images.Food }
+            { GridValue.Food, Images.Food },
+            { GridValue.Flash, Images.Flash }
         };
 
         private readonly Dictionary<Direction, int> dirToRotation = new()
@@ -36,9 +37,9 @@ namespace Snake
         };
 
 
-        private readonly int rows = 15, cols = 15;
+        private readonly int rows = 75, cols = 75;
         private readonly Image[,] gridImages;
-        private GameState gameState;
+        private gameState_Class gameState;
         private bool gameRunning;
 
 
@@ -46,7 +47,7 @@ namespace Snake
         {
             InitializeComponent();
             gridImages = SetupGrid();
-            gameState = new GameState(rows, cols);
+            gameState = new gameState_Class(rows, cols);
         }
 
         private async Task RunGame()
@@ -56,7 +57,7 @@ namespace Snake
             Overlay.Visibility = Visibility.Hidden;
             await GameLoop();
             await ShowGameOver();
-            gameState = new GameState(rows, cols);
+            gameState = new gameState_Class(rows, cols);
         }
 
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -115,7 +116,9 @@ namespace Snake
         {
             while (!gameState.GameOver)
             {
-                await Task.Delay(100);
+                int MoveSpeed = gameState_Class.GetMovementSpeed();
+                await Task.Delay(MoveSpeed);
+                Debug_MoveSpeed.Text = "SPEED " + MoveSpeed;
                 gameState.Move();
                 Draw();
             }
@@ -185,7 +188,7 @@ namespace Snake
                 Position pos = positions[i];
                 ImageSource source = (i == 0) ? Images.DeadHead : Images.DeadBody;
                 gridImages[pos.Row, pos.Col].Source = source;
-                await Task.Delay(50);
+                await Task.Delay(25);
             }
         }
 

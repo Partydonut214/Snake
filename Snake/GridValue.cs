@@ -5,6 +5,7 @@
         Empty,
         Snake,
         Food,
+        Flash,
         Outside
     }
 }
