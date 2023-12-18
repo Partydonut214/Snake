@@ -29,7 +29,7 @@
                 FontSize="22"
                 Margin="10"/>
 
-            <TextBlock x:Name="Debug_MoveSpeed"
+            <TextBlock x:Name="MoveSpeed"
     HorizontalAlignment="Right"
     VerticalAlignment="Center"
     Text="SPEED 0"

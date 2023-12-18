@@ -193,15 +193,11 @@ namespace Snake
 
         public async void Move()
         {
-            
-
             if (dirChanges.Count > 0) 
             {
                 Dir = dirChanges.First.Value;
                 dirChanges.RemoveFirst();
-            
             }
-            
 
             Position newHeadPos = HeadPosition().Translate(Dir);
             GridValue hit = WillHit(newHeadPos);
@@ -230,11 +226,6 @@ namespace Snake
             {
                 AddHead(newHeadPos);
                 Score++;
-                if (Score.Equals(10)) 
-                {
-                    MainWindow mainWindow = new MainWindow();
-                    mainWindow.GrowGrid();
-                }
 
                 for (int i = 0; i < 5; i++)
                 {
@@ -290,14 +281,17 @@ namespace Snake
             }
         }
 
-        private void Nom_MediaEnded(object sender, EventArgs e)
-        {
-            nom.Stop();
-        }
-
         internal async void BeginWatchforKonami(bool KonamiRunning)
         {
-            //if 
+            if (KonamiRunning) 
+            {
+            //if ()
+            }
+        }
+
+        internal void ResetMovementSpeed()
+        {
+            MovementSpeed = 100;
         }
     }
 }

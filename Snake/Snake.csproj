@@ -10,16 +10,50 @@
   <ItemGroup>
     <None Remove="Assets\BIG Food.png" />
     <None Remove="Assets\Body.png" />
+    <None Remove="Assets\countdownBeginning.wav" />
+    <None Remove="Assets\countdownStinger.wav" />
     <None Remove="Assets\DeadBody.png" />
     <None Remove="Assets\DeadHead.png" />
+    <None Remove="Assets\deathSoundIntro.wav" />
+    <None Remove="Assets\deathSoundLoop.wav" />
+    <None Remove="Assets\deathSoundOutro.wav" />
     <None Remove="Assets\DroidSansMono.ttf" />
     <None Remove="Assets\Empty.png" />
     <None Remove="Assets\Ew.png" />
     <None Remove="Assets\Flash.png" />
     <None Remove="Assets\Food.png" />
+    <None Remove="Assets\gameMusic.wav" />
+    <None Remove="Assets\gameOver.wav" />
     <None Remove="Assets\Head.png" />
     <None Remove="Assets\icon.ico" />
-    <None Remove="Assets\nom.mp3" />
+    <None Remove="Assets\preGameMusic.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\countdownBeginning.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\countdownStinger.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\deathSoundIntro.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\deathSoundLoop.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\deathSoundOutro.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\gameMusic.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\gameOver.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\preGameMusic.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -38,7 +72,6 @@
     <Resource Include="Assets\Food.png" />
     <Resource Include="Assets\Head.png" />
     <Resource Include="Assets\icon.ico" />
-    <Resource Include="Assets\nom.mp3" />
   </ItemGroup>
 
 </Project>

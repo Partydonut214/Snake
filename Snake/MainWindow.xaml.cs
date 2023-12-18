@@ -59,6 +59,8 @@ namespace Snake
         {
             Draw();
             await ShowCountDown();
+            Audio.BackgroundMusic.Play();
+            Audio.StopAudio(Audio.GameOver);
             Overlay.Visibility = Visibility.Hidden;
             await GameLoop();
             await ShowGameOver();
@@ -74,6 +76,7 @@ namespace Snake
 
             if (!gameRunning)
             {
+                Audio.PreGame.Stop();
                 gameRunning = true;
                 await RunGame();
                 gameRunning = false;
@@ -124,7 +127,7 @@ namespace Snake
             {
                 int MoveSpeed = gameState_Class.GetMovementSpeed();
                 await Task.Delay(MoveSpeed);
-                Debug_MoveSpeed.Text = "SPEED " + MoveSpeed;
+                this.MoveSpeed.Text = "SPEED " + (MoveSpeed);
                 gameState.Move();
                 Draw();
             }
@@ -209,8 +212,11 @@ namespace Snake
             for (int i = 3; i >= 1; i--)
             {
                 OverlayText.Text = i.ToString();
-                await Task.Delay(500);
+                Audio.CountdownBeginning.Play();
+                await Task.Delay(750);
+                Audio.StopAudio(Audio.CountdownBeginning);
             }
+            Audio.CountdownStinger.Play();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -224,8 +230,9 @@ namespace Snake
             await Task.Delay(1000);
             Overlay.Visibility = Visibility.Visible;
             OverlayText.Text = "PRESS ANY KEY TO START";
+            Audio.BackgroundMusic.Stop();
+            Audio.GameOver.Play();
+            gameState.ResetMovementSpeed();
         }
-
-
     }
 }
