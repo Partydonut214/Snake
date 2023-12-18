@@ -8,11 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\BIG Food.png" />
     <None Remove="Assets\Body.png" />
     <None Remove="Assets\DeadBody.png" />
     <None Remove="Assets\DeadHead.png" />
     <None Remove="Assets\DroidSansMono.ttf" />
     <None Remove="Assets\Empty.png" />
+    <None Remove="Assets\Ew.png" />
     <None Remove="Assets\Flash.png" />
     <None Remove="Assets\Food.png" />
     <None Remove="Assets\Head.png" />
@@ -25,11 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\BIG Food.png" />
     <Resource Include="Assets\Body.png" />
     <Resource Include="Assets\DeadBody.png" />
     <Resource Include="Assets\DeadHead.png" />
     <Resource Include="Assets\DroidSansMono.ttf" />
     <Resource Include="Assets\Empty.png" />
+    <Resource Include="Assets\Ew.png" />
     <Resource Include="Assets\Flash.png" />
     <Resource Include="Assets\Food.png" />
     <Resource Include="Assets\Head.png" />

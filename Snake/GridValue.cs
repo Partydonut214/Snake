@@ -6,6 +6,8 @@
         Snake,
         Food,
         Flash,
+        BigFood,
+        Ew,
         Outside
     }
 }

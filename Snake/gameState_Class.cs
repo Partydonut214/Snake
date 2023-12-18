@@ -4,6 +4,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Printing;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
@@ -74,6 +75,19 @@ namespace Snake
             Grid[pos.Row, pos.Col] = GridValue.Food;
         }
 
+        private void AddBigFood()
+        {
+            List<Position> empty = new List<Position>(EmptyPositions());
+
+            if (empty.Count == 0)
+            {
+                return;
+            }
+
+            Position pos = empty[random.Next(empty.Count)];
+            Grid[pos.Row, pos.Col] = GridValue.BigFood;
+        }
+
         private void AddFlash()
         {
             List<Position> empty = new List<Position>(EmptyPositions());
@@ -111,7 +125,17 @@ namespace Snake
         private void RemoveTail()
         {
             Position tail = snakePositions.Last.Value;
+                Grid[tail.Row, tail.Col] = GridValue.Empty;
+            snakePositions.RemoveLast();
+        }
+
+        private void RemoveTail(string replaceWith)
+        {
+            Position tail = snakePositions.Last.Value;
+            if (replaceWith == null)
             Grid[tail.Row, tail.Col] = GridValue.Empty;
+            else if (replaceWith == "Poo")
+            Grid[tail.Row, tail.Col] = GridValue.Ew;
             snakePositions.RemoveLast();
         }
 
@@ -169,9 +193,7 @@ namespace Snake
 
         public async void Move()
         {
-            MediaPlayer nom = new MediaPlayer();
-            //Uri soundfile = new Uri($"/Assets/nom.mp3");
-            //nom.Open(soundfile);
+            
 
             if (dirChanges.Count > 0) 
             {
@@ -179,11 +201,11 @@ namespace Snake
                 dirChanges.RemoveFirst();
             
             }
-
+            
 
             Position newHeadPos = HeadPosition().Translate(Dir);
             GridValue hit = WillHit(newHeadPos);
-
+             
             if (hit == GridValue.Outside || hit == GridValue.Snake)
             {
                 GameOver = true;
@@ -192,12 +214,28 @@ namespace Snake
             {
                 RemoveTail();
                 AddHead(newHeadPos);
+
+                int chance = random.Next(0, 1001);
+                if (chance == 1 & Score >= 5)
+                {
+                    RemoveTail("Poo");
+                    Score--;
+                }
+                if (chance < 10)
+                {
+                    AddFlash();
+                }
             }
             else if (hit == GridValue.Food)
             {
                 AddHead(newHeadPos);
                 Score++;
-                //nom.Play();
+                if (Score.Equals(10)) 
+                {
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.GrowGrid();
+                }
+
                 for (int i = 0; i < 5; i++)
                 {
                     AddFood();
@@ -207,53 +245,59 @@ namespace Snake
                 {
                     AddFlash();
                 }
+                if (random.Next(0, 51) <= 10)
+                {
+                    AddBigFood();
+                }
             }
             else if (hit == GridValue.Flash)
             {
                 AddHead(newHeadPos);
+                AddHead(newHeadPos);
+                AddHead(newHeadPos);
                 Score += 3;
-                if (FlashesActive == 0)
-                {
-                    MovementSpeed -= 50;
-                    FlashesActive++;
-                }
-                else if (FlashesActive > 0)
+                if (MovementSpeed > 10)
                 {
                     MovementSpeed -= 25;
                     if (MovementSpeed < 10)
+                    {
                         MovementSpeed = 10;
-                }
-                do 
-                { 
-                    await Task.Delay(7500);
-                    if (FlashesActive > 1)
-                    {
-                        MovementSpeed += 25;
-                        FlashesActive--;
-                        break;
-                    }
-                    else if (FlashesActive == 1)
-                    {
-                        MovementSpeed += 50;
-                        FlashesActive--;
-                        break;
-                    }
-                }
-                while (FlashesActive > 0); 
-                {
-                    await Task.Delay(7500);
-                    if (FlashesActive > 1)
-                    {
-                        MovementSpeed += 25;
-                        FlashesActive--;
-                    }
-                    else if (FlashesActive == 1)
-                    {
-                        MovementSpeed += 50;
-                        FlashesActive--;
                     }
                 }
             }
+            else if (hit == GridValue.Ew)
+            {
+                AddHead(newHeadPos);
+                if (Score > 30)
+                { Score -= 30;
+                    for (int i = 0; i < 30; i++)
+                    {
+                        RemoveTail();
+                    }
+                }
+                else GameOver = true;
+                    
+            }
+            else if (hit == GridValue.BigFood)
+            {
+                AddHead(newHeadPos);
+                AddHead(newHeadPos);
+                AddHead(newHeadPos);
+                AddHead(newHeadPos);
+                AddHead(newHeadPos);
+                MovementSpeed += 10;
+                Score += 5;
+            }
+        }
+
+        private void Nom_MediaEnded(object sender, EventArgs e)
+        {
+            nom.Stop();
+        }
+
+        internal async void BeginWatchforKonami(bool KonamiRunning)
+        {
+            //if 
         }
     }
 }

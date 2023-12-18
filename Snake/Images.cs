@@ -10,6 +10,8 @@ namespace Snake
         public readonly static ImageSource Body = LoadImage("Body.png");
         public readonly static ImageSource Head = LoadImage("Head.png");
         public readonly static ImageSource Food = LoadImage("Food.png");
+        public readonly static ImageSource BigFood = LoadImage("BIG Food.png");
+        public readonly static ImageSource Ew = LoadImage("Ew.png");
         public readonly static ImageSource Flash = LoadImage("Flash.png");
         public readonly static ImageSource DeadBody = LoadImage("DeadBody.png");
         public readonly static ImageSource DeadHead = LoadImage("DeadHead.png");

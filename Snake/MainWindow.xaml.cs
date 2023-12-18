@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,11 +21,15 @@ namespace Snake
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool KonamiRunning = false;
+
         private readonly Dictionary<GridValue, ImageSource> gridValToImage = new()
         {
             { GridValue.Empty, Images.Empty },
             { GridValue.Snake, Images.Body },
             { GridValue.Food, Images.Food },
+            { GridValue.BigFood, Images.BigFood },
+            { GridValue.Ew, Images.Ew },
             { GridValue.Flash, Images.Flash }
         };
 
@@ -37,7 +42,7 @@ namespace Snake
         };
 
 
-        private readonly int rows = 75, cols = 75;
+        private int rows = 75, cols = 75;
         private readonly Image[,] gridImages;
         private gameState_Class gameState;
         private bool gameRunning;
@@ -88,7 +93,8 @@ namespace Snake
                     gameState.ChangeDirection(Direction.Left); 
                     break;
                 case Key.Right:
-                    gameState.ChangeDirection(Direction.Right); 
+                    gameState.ChangeDirection(Direction.Right);
+                    //gameState.BeginWatchforKonami(bool KonamiRunning);
                     break;
                 case Key.Up:
                     gameState.ChangeDirection(Direction.Up);
@@ -169,6 +175,12 @@ namespace Snake
             }
         }
 
+        public void GrowGrid()
+        {
+            rows += 10;
+            cols += 10;
+        }
+
         private void DrawSnakeHead()
         {
             Position headPos = gameState.HeadPosition();
@@ -199,6 +211,11 @@ namespace Snake
                 OverlayText.Text = i.ToString();
                 await Task.Delay(500);
             }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Audio.PreGame.Play();
         }
 
         private async Task ShowGameOver()

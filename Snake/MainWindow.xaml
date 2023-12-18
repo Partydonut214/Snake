@@ -13,7 +13,7 @@
         WindowStartupLocation="CenterScreen"
         Icon="Assets/icon.ico"
         PreviewKeyDown="Window_PreviewKeyDown"
-        KeyDown="Window_KeyDown">
+        KeyDown="Window_KeyDown" Loaded="Window_Loaded">
     <Viewbox>
         <Grid>
             <Grid.RowDefinitions>
