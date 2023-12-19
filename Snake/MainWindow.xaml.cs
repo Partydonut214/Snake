@@ -59,6 +59,7 @@ namespace Snake
         {
             Draw();
             await ShowCountDown();
+            //Audio.PlayAudio(Audio.BackgroundMusic, true);
             Audio.BackgroundMusic.Play();
             Audio.StopAudio(Audio.GameOver);
             Overlay.Visibility = Visibility.Hidden;
@@ -129,6 +130,7 @@ namespace Snake
                 await Task.Delay(MoveSpeed);
                 this.MoveSpeed.Text = "SPEED " + (MoveSpeed);
                 gameState.Move();
+                gameState.MusicSpeed();
                 Draw();
             }
         }
@@ -197,14 +199,23 @@ namespace Snake
         private async Task DrawDeadSnake()
         {
             List<Position> positions = new List<Position>(gameState.SnakePositions());
-
+            Audio.deathSoundIntro.Play();
+            bool deathMusicLoopStarted = false;
             for (int i = 0; i < positions.Count; i++)
             {
+               
+                if (Audio.deathSoundIntro.Position == Audio.deathSoundIntro.NaturalDuration && !deathMusicLoopStarted) 
+                {
+                    Audio.deathSoundLoop.Play();
+                    deathMusicLoopStarted = true;
+                }
                 Position pos = positions[i];
                 ImageSource source = (i == 0) ? Images.DeadHead : Images.DeadBody;
                 gridImages[pos.Row, pos.Col].Source = source;
                 await Task.Delay(25);
             }
+            Audio.deathSoundLoop.Stop(); Audio.deathSoundLoop.Position = new TimeSpan(0);
+            Audio.deathSoundOutro.Play();
         }
 
         private async Task ShowCountDown()
@@ -226,11 +237,11 @@ namespace Snake
 
         private async Task ShowGameOver()
         {
+            Audio.BackgroundMusic.Stop();
             await DrawDeadSnake();
             await Task.Delay(1000);
             Overlay.Visibility = Visibility.Visible;
             OverlayText.Text = "PRESS ANY KEY TO START";
-            Audio.BackgroundMusic.Stop();
             Audio.GameOver.Play();
             gameState.ResetMovementSpeed();
         }

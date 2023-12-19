@@ -87,7 +87,7 @@ namespace Snake
             Position pos = empty[random.Next(empty.Count)];
             Grid[pos.Row, pos.Col] = GridValue.BigFood;
         }
-
+        
         private void AddFlash()
         {
             List<Position> empty = new List<Position>(EmptyPositions());
@@ -281,6 +281,56 @@ namespace Snake
             }
         }
 
+        public async void MusicSpeed()
+        {
+            if (!GameOver)
+            {
+                //Speed 100 == Audio.BackgroundMusic.SpeedRatio = 1;
+                int Speed = GetMovementSpeed();
+
+                int milestone1 = 10;
+                double outputValue1 = 1.25;
+
+                int milestone2 = 100;
+                double outputValue2 = 1;
+
+                int milestone3 = 250;
+                double outputValue3 = 0;
+
+                // Determine the closest milestones
+                int closestMilestone1 = milestone1;
+                int closestMilestone2 = milestone2;
+                double closestOutputValue1 = outputValue1;
+                double closestOutputValue2 = outputValue2;
+
+                if (Math.Abs(Speed - milestone2) < Math.Abs(Speed - milestone1))
+                {
+                    closestMilestone1 = milestone2;
+                    closestOutputValue1 = outputValue2;
+
+                    closestMilestone2 = milestone3;
+                    closestOutputValue2 = outputValue3;
+                }
+
+                // Linear interpolation
+                double outputValue = closestOutputValue1 +
+                                     (closestOutputValue2 - closestOutputValue1) *
+                                     ((double)(Speed - closestMilestone1) / (closestMilestone2 - closestMilestone1));
+
+                
+
+
+
+
+                //double SongSpeed = (double)Speed/1000;
+                //if(SongSpeed != 1 && SongSpeed < 1) 
+                //{
+
+                //}
+                Audio.BackgroundMusic.SpeedRatio = outputValue;
+            }
+        }
+
         internal async void BeginWatchforKonami(bool KonamiRunning)
         {
             if (KonamiRunning) 
@@ -292,6 +342,7 @@ namespace Snake
         internal void ResetMovementSpeed()
         {
             MovementSpeed = 100;
+            Audio.BackgroundMusic.SpeedRatio = 1;
         }
     }
 }
