@@ -13,12 +13,17 @@ namespace Snake
     {
         public readonly static MediaPlayer GameOver = LoadAudio("gameOver.wav", 0.3, true);
         public readonly static MediaPlayer PreGame = LoadAudio("preGameMusic.wav", 0.5, true);
-        public readonly static MediaPlayer BackgroundMusic = LoadAudio("gameMusic.wav", 1, true);
+        public readonly static MediaPlayer BackgroundMusic = LoadAudio("gameMusic.wav", 0.8, true);
         public readonly static MediaPlayer CountdownBeginning = LoadAudio("countdownBeginning.wav", 0.75);
         public readonly static MediaPlayer CountdownStinger = LoadAudio("countdownStinger.wav", 0.75);
         public readonly static MediaPlayer deathSoundIntro = LoadAudio("deathSoundIntro.wav", 0.75);
         public readonly static MediaPlayer deathSoundLoop = LoadAudio("deathSoundLoop.wav", 0.75, true);
         public readonly static MediaPlayer deathSoundOutro = LoadAudio("deathSoundOutro.wav", 0.75);
+        public readonly static MediaPlayer crunchOne = LoadAudio("crunchOne.wav", 0.75);
+        public readonly static MediaPlayer crunchTwo = LoadAudio("crunchTwo.wav", 0.75);
+        public readonly static MediaPlayer crunchThree = LoadAudio("crunchThree.wav", 0.75);
+        public readonly static MediaPlayer eatEW = LoadAudio("eatEw.wav", 0.75);
+        // Credits Pixabay "So Slimy"
 
 
         private static MediaPlayer LoadAudio(string filename, double volume = 1, bool repeat = false)
@@ -41,6 +46,7 @@ namespace Snake
         public static void PlayAudio(MediaPlayer sender, bool looping = false)
         {
             MediaPlayer m = sender;
+            m.Stop();
             m.Play();
             bool playerRunning = true;
             if (m.Position == m.NaturalDuration) 
@@ -58,6 +64,27 @@ namespace Snake
             MediaPlayer m = sender;
             m.Stop();
             m.Position = new TimeSpan(0);
+        }
+
+        public static void Crunch()
+        {
+            Random random = new Random();
+            int crunch = random.Next(1, 4);
+            if (crunch == 1)
+            {
+                crunchOne.Stop();
+                crunchOne.Play();
+            }
+            else if (crunch == 2)
+            {
+                crunchTwo.Stop();
+                crunchTwo.Play();
+            }
+            else
+            {
+                crunchThree.Stop();
+                crunchThree.Play();
+            }
         }
 
         private static void Player_MediaEnded(object sender, EventArgs e)

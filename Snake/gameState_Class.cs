@@ -226,6 +226,7 @@ namespace Snake
             {
                 AddHead(newHeadPos);
                 Score++;
+                Audio.Crunch();
 
                 for (int i = 0; i < 5; i++)
                 {
@@ -259,6 +260,9 @@ namespace Snake
             else if (hit == GridValue.Ew)
             {
                 AddHead(newHeadPos);
+                Score++;
+                Audio.PlayAudio(Audio.eatEW);
+
                 if (Score > 30)
                 { Score -= 30;
                     for (int i = 0; i < 30; i++)
@@ -271,6 +275,7 @@ namespace Snake
             }
             else if (hit == GridValue.BigFood)
             {
+                Audio.Crunch();
                 AddHead(newHeadPos);
                 AddHead(newHeadPos);
                 AddHead(newHeadPos);

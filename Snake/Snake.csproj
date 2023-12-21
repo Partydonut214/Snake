@@ -12,6 +12,9 @@
     <None Remove="Assets\Body.png" />
     <None Remove="Assets\countdownBeginning.wav" />
     <None Remove="Assets\countdownStinger.wav" />
+    <None Remove="Assets\crunchOne.wav" />
+    <None Remove="Assets\crunchThree.wav" />
+    <None Remove="Assets\crunchTwo.wav" />
     <None Remove="Assets\DeadBody.png" />
     <None Remove="Assets\DeadHead.png" />
     <None Remove="Assets\deathSoundIntro.wav" />
@@ -36,11 +39,20 @@
     <Content Include="Assets\countdownStinger.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\crunchOne.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\crunchThree.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\crunchTwo.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\deathSoundIntro.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\deathSoundLoop.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\deathSoundOutro.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
